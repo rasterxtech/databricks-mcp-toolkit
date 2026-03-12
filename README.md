@@ -41,8 +41,11 @@ Na primeira vez, crie o `.env` com suas credenciais:
 cat > .env << 'EOF'
 DATABRICKS_HOST=https://<seu-workspace>.cloud.databricks.com/
 DATABRICKS_TOKEN=<seu_token_aqui>
+DATABRICKS_WAREHOUSE_ID=<opcional_warehouse_id>
 EOF
 ```
+
+> `DATABRICKS_WAREHOUSE_ID` é opcional. Se omitido, o servidor usa automaticamente o primeiro warehouse em estado `RUNNING`.
 
 Depois inicie o Claude Code normalmente:
 
@@ -225,13 +228,13 @@ O agente é invocado quando você pede coisas como:
 
 ## Customização
 
-### Trocar o SQL Warehouse padrão
+### Variáveis do `.env`
 
-Por padrão, o MCP Server usa o primeiro warehouse em estado `RUNNING`. Para fixar um warehouse específico, adicione no `.env`:
-
-```
-DATABRICKS_WAREHOUSE_ID=be747c7982bd068f
-```
+| Variável | Obrigatória | Descrição |
+|---|---|---|
+| `DATABRICKS_HOST` | Sim | URL do workspace (ex: `https://dbc-xxx.cloud.databricks.com/`) |
+| `DATABRICKS_TOKEN` | Sim | Token de acesso pessoal (PAT) |
+| `DATABRICKS_WAREHOUSE_ID` | Não | ID do SQL Warehouse. Se omitido, usa o primeiro em estado `RUNNING` |
 
 ### Adicionar novas ferramentas ao MCP Server
 
