@@ -1,0 +1,8 @@
+
+.databricks
+.env
+.venv
+.mcp.json
+__pycache__
+*.pyc
+.claude/settings.local.json
