@@ -12,8 +12,12 @@ import os
 from functools import lru_cache
 from textwrap import dedent
 
+from dotenv import load_dotenv
 from databricks.sdk import WorkspaceClient
 from mcp.server.fastmcp import FastMCP
+
+# Carrega .env da raiz do projeto (cwd do Claude Code)
+load_dotenv()
 
 # ── Inicialização ────────────────────────────────────────────────────────────
 

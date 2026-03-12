@@ -42,11 +42,7 @@ cat > "$PROJECT_DIR/.mcp.json" << EOF
   "mcpServers": {
     "databricks": {
       "command": "$MCP_HOME/.venv/bin/python",
-      "args": ["$MCP_HOME/server.py"],
-      "env": {
-        "DATABRICKS_HOST": "\${DATABRICKS_HOST}",
-        "DATABRICKS_TOKEN": "\${DATABRICKS_TOKEN}"
-      }
+      "args": ["$MCP_HOME/server.py"]
     }
   }
 }
@@ -83,11 +79,11 @@ echo "✅ Setup script configurado"
 if [ ! -d "$MCP_HOME/.venv" ]; then
     echo "📦 Criando ambiente virtual..."
     python3 -m venv "$MCP_HOME/.venv"
-    "$MCP_HOME/.venv/bin/pip" install --quiet databricks-connect databricks-sdk "mcp[cli]"
+    "$MCP_HOME/.venv/bin/pip" install --quiet databricks-connect databricks-sdk "mcp[cli]" python-dotenv
     echo "✅ Ambiente virtual criado e dependências instaladas"
 else
     echo "⏭️  Ambiente virtual já existe, atualizando dependências..."
-    "$MCP_HOME/.venv/bin/pip" install --quiet --upgrade databricks-connect databricks-sdk "mcp[cli]"
+    "$MCP_HOME/.venv/bin/pip" install --quiet --upgrade databricks-connect databricks-sdk "mcp[cli]" python-dotenv
     echo "✅ Dependências atualizadas"
 fi
 
