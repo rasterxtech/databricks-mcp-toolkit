@@ -2,27 +2,9 @@
 
 O toolkit é composto por 3 camadas que trabalham juntas:
 
-```mermaid
-flowchart TD
-  subgraph claude ["Claude Code"]
-    skills_data["/sql · /analyze · /explore · /notebook"]
-    skills_ds["/predict · /stats · /timeseries · /model · /feature"]
-    agent_analyst["Agent: databricks-analyst"]
-    agent_ds["Agent: data-scientist"]
-  end
-
-  subgraph mcp ["MCP Server — 18 ferramentas"]
-    tools_data["run_sql · list_catalogs · list_schemas\nlist_tables · describe_table · sample_table\ntable_stats · list_warehouses · query_history"]
-    tools_ml["list_experiments · get_experiment_runs\nget_run_details · compare_runs · get_metric_history\nlist_registered_models · get_model_versions\nlist_serving_endpoints · get_serving_endpoint"]
-  end
-
-  subgraph databricks ["Databricks Workspace"]
-    apis["APIs REST · SQL Warehouses · Unity Catalog\nMLflow · Model Registry · Serving Endpoints"]
-  end
-
-  claude -- "tool calls" --> mcp
-  mcp -- "Databricks SDK" --> databricks
-```
+<p align="center">
+  <img src="architecture.svg" alt="Arquitetura do Databricks MCP Toolkit" width="100%">
+</p>
 
 ---
 
