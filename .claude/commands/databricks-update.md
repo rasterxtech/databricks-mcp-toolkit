@@ -1,14 +1,14 @@
 ---
-description: Atualiza o Databricks MCP Toolkit para a versão mais recente
+description: Update the Databricks MCP Toolkit to the latest version
 allowed-tools: Bash
 ---
 
-Atualize o Databricks MCP Toolkit executando o script de update:
+Update the Databricks MCP Toolkit by running the update script:
 
 ```bash
 ~/.local/share/databricks-mcp/update.sh
 ```
 
-Após a execução:
-1. Mostre o output do script para o usuário
-2. Informe que é necessário reiniciar o Claude Code para aplicar as mudanças (sair com `exit` e abrir novamente com `claude`)
+After execution:
+1. Show the script output to the user
+2. Inform them that a restart of Claude Code is required to apply the changes (exit with `exit` and reopen with `claude`)
