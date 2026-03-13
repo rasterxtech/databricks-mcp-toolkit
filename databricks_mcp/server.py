@@ -17,8 +17,17 @@ from dotenv import load_dotenv
 from databricks.sdk import WorkspaceClient
 from mcp.server.fastmcp import FastMCP
 
-# Carrega .env da raiz do projeto (cwd do Claude Code)
-load_dotenv()
+# Prioridade de credenciais:
+#   1. Variáveis de ambiente já definidas no sistema
+#   2. .env do projeto (cwd do Claude Code)
+#   3. .databricks_mcp_cfg global (~/.local/share/databricks-mcp/)
+#   4. Perfil CLI (~/.databrickscfg)
+load_dotenv()  # carrega .env do projeto (não sobrescreve env vars existentes)
+_cfg_path = os.path.join(
+    os.path.expanduser("~"), ".local", "share", "databricks-mcp", ".databricks_mcp_cfg"
+)
+if os.path.isfile(_cfg_path):
+    load_dotenv(_cfg_path, override=False)  # preenche lacunas sem sobrescrever
 
 # ── Inicialização ────────────────────────────────────────────────────────────
 
