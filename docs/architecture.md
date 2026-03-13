@@ -1,6 +1,6 @@
 # Arquitetura
 
-O toolkit e composto por 3 camadas que trabalham juntas:
+O toolkit é composto por 3 camadas que trabalham juntas:
 
 ```mermaid
 flowchart TD
@@ -83,7 +83,7 @@ databricks-mcp-toolkit/
 ├── setup.sh                      ← Instalador remoto (curl | bash)
 ├── update.sh                     ← Auto-updater (baixado pelos instaladores)
 ├── VERSION                       ← Versão atual
-├── CHANGELOG.md                  ← Historico de releases
+├── CHANGELOG.md                  ← Histórico de releases
 ├── CLAUDE.md                     ← Instruções para agentes (este repo)
 ├── README.md                     ← Documentação principal
 ├── databricks_mcp/

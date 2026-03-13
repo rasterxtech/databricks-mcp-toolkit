@@ -12,19 +12,19 @@ Executa queries SQL diretamente ou gera SQL a partir de linguagem natural.
 /sql SELECT * FROM silver.ibge.ipca_mensal WHERE valor > 5 ORDER BY data_referencia
 ```
 
-Tambem aceita linguagem natural:
+Também aceita linguagem natural:
 
 ```
 /sql me mostra as 10 maiores variações do IPCA
 ```
 
-**O que acontece por baixo:** se você fornece uma query pronta, ela e executada diretamente. Se descreve o que quer, o Claude primeiro inspeciona as tabelas com `describe_table`, monta a query e então executa.
+**O que acontece por baixo:** se você fornece uma query pronta, ela é executada diretamente. Se descreve o que quer, o Claude primeiro inspeciona as tabelas com `describe_table`, monta a query e então executa.
 
 ---
 
-## `/analyze` — Analise exploratoria (EDA)
+## `/analyze` — Análise exploratória (EDA)
 
-Executa uma analise exploratoria completa de qualquer tabela.
+Executa uma análise exploratória completa de qualquer tabela.
 
 ```
 /analyze silver.ibge.ipca_mensal
@@ -35,10 +35,10 @@ Executa uma analise exploratoria completa de qualquer tabela.
 1. Leitura do schema (colunas e tipos)
 2. Estatísticas descritivas (contagem, nulos, cardinalidade)
 3. Amostra de dados reais
-4. Distribuições de valores (categoricas, numericas, temporais)
+4. Distribuições de valores (categóricas, numéricas, temporais)
 5. Verificações de data quality (nulos, duplicatas, outliers)
 
-O resultado e apresentado em markdown organizado, com uma seção final de observações e insights.
+O resultado é apresentado em markdown organizado, com uma seção final de observações e insights.
 
 ---
 
@@ -47,26 +47,26 @@ O resultado e apresentado em markdown organizado, com uma seção final de obser
 Gera um arquivo `.py` no formato nativo de notebooks Databricks.
 
 ```
-/notebook analise de tendência do IPCA com media movel de 3 meses
+/notebook análise de tendência do IPCA com média móvel de 3 meses
 ```
 
 **O notebook gerado inclui:**
 
 - Header `# Databricks notebook source`
-- Separadores de celula `# COMMAND ----------`
-- Celulas de documentação com `# MAGIC %md`
-- Codigo PySpark estruturado e comentado
-- Celula de validação/verificação ao final
+- Separadores de célula `# COMMAND ----------`
+- Células de documentação com `# MAGIC %md`
+- Código PySpark estruturado e comentado
+- Célula de validação/verificação ao final
 
 ---
 
 ## `/explore` — Navegar pelo Unity Catalog
 
-Navegação progressiva pelo Unity Catalog, do nível mais alto ate o detalhe de uma tabela.
+Navegação progressiva pelo Unity Catalog, do nível mais alto até o detalhe de uma tabela.
 
 ```
-/explore                           # lista catalogos
-/explore silver                    # lista schemas do catalogo silver
+/explore                           # lista catálogos
+/explore silver                    # lista schemas do catálogo silver
 /explore silver.ibge               # lista tabelas do schema ibge
 /explore silver.ibge.ipca_mensal   # descreve a tabela completa
 ```
@@ -81,25 +81,25 @@ Gera um notebook Databricks com pipeline de Machine Learning completo.
 /predict classificar churn na tabela gold.clientes.features
 ```
 
-**O notebook gerado inclui:** EDA, feature engineering, split treino/teste, treinamento com logging no MLflow, avaliação de metricas e registro do modelo.
+**O notebook gerado inclui:** EDA, feature engineering, split treino/teste, treinamento com logging no MLflow, avaliação de métricas e registro do modelo.
 
 ---
 
-## `/stats` — Analise estatística avançada
+## `/stats` — Análise estatística avançada
 
-Executa testes estatísticos e analises avançadas usando funções SQL nativas do Databricks.
+Executa testes estatísticos e análises avançadas usando funções SQL nativas do Databricks.
 
 ```
 /stats correlação entre preço e volume na tabela silver.mercado.acoes
 ```
 
-**Analises disponíveis:** estatísticas descritivas avançadas (skewness, kurtosis), correlação, detecção de outliers (IQR), distribuição de frequência, teste de normalidade aproximado.
+**Análises disponíveis:** estatísticas descritivas avançadas (skewness, kurtosis), correlação, detecção de outliers (IQR), distribuição de frequência, teste de normalidade aproximado.
 
 ---
 
-## `/timeseries` — Series temporais
+## `/timeseries` — Séries temporais
 
-Analisa series temporais e gera notebooks de forecasting.
+Analisa séries temporais e gera notebooks de forecasting.
 
 ```
 /timeseries tendência do IPCA em silver.ibge.ipca_mensal

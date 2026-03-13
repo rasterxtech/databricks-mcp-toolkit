@@ -4,13 +4,13 @@
 
 As credenciais são configuradas durante a instalação e salvas em `~/.local/share/databricks-mcp/.databricks_mcp_cfg`. Para override por projeto, crie um `.env` na raiz do projeto.
 
-| Variavel | Obrigatoria | Descrição |
+| Variável | Obrigatória | Descrição |
 |---|---|---|
 | `DATABRICKS_HOST` | Sim | URL do workspace (ex: `https://dbc-xxx.cloud.databricks.com/`) |
 | `DATABRICKS_TOKEN` | Sim | Token de acesso pessoal (PAT) |
 | `DATABRICKS_WAREHOUSE_ID` | Não | ID do SQL Warehouse. Se omitido, usa o primeiro em estado `RUNNING` |
 
-Para reconfigurar credenciais, rode `./scripts/install.sh` novamente — o instalador detecta credenciais existentes e oferece a opção de mante-las ou substitui-las.
+Para reconfigurar credenciais, rode `./scripts/install.sh` novamente — o instalador detecta credenciais existentes e oferece a opção de mantê-las ou substituí-las.
 
 ---
 
@@ -27,11 +27,11 @@ def minha_ferramenta(parametro: str) -> str:
         parametro: Descrição do parâmetro.
     """
     client = _get_client()
-    # sua logica aqui
+    # sua lógica aqui
     return "resultado"
 ```
 
-Apos editar, rode `./scripts/install.sh` novamente para atualizar a instalação global.
+Após editar, rode `./scripts/install.sh` novamente para atualizar a instalação global.
 
 ---
 

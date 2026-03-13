@@ -1,14 +1,14 @@
 # Databricks MCP Toolkit
 
-**Conecte o Claude Code ao seu workspace Databricks e transforme linguagem natural em queries, analises e notebooks, sem sair do terminal.**
+**Conecte o Claude Code ao seu workspace Databricks e transforme linguagem natural em queries, análises e notebooks, sem sair do terminal.**
 
-O Databricks MCP Toolkit e um pacote completo de integração entre o [Claude Code](https://docs.anthropic.com/en/docs/claude-code) e o Databricks. Ele inclui um MCP Server com 18 ferramentas, 2 agentes especializados e 9 skills prontos para uso imediato.
+O Databricks MCP Toolkit é um pacote completo de integração entre o [Claude Code](https://docs.anthropic.com/en/docs/claude-code) e o Databricks. Ele inclui um MCP Server com 18 ferramentas, 2 agentes especializados e 9 skills prontos para uso imediato.
 
 ---
 
 ## Por que usar
 
-- **Sem troca de contexto**: tudo acontece no terminal onde você ja esta
+- **Sem troca de contexto**: tudo acontece no terminal onde você já está
 - **SQL via linguagem natural**: descreva o que precisa, o agente monta a query
 - **Exploração guiada**: navegue pelo Unity Catalog de forma progressiva e estruturada
 - **Notebooks prontos**: gere arquivos `.py` no formato Databricks com um comando
@@ -16,16 +16,16 @@ O Databricks MCP Toolkit e um pacote completo de integração entre o [Claude Co
 
 ---
 
-## O que esta incluso
+## O que está incluso
 
 ### Agentes
 
 Acionados automaticamente pelo Claude Code conforme o tipo de tarefa.
 
-| Agente | Perfil | Quando e acionado |
+| Agente | Perfil | Quando é acionado |
 |---|---|---|
-| `databricks-analyst` | Engenheiro de Dados senior | Exploração de dados, SQL, notebooks PySpark |
-| `data-scientist` | Cientista de Dados / ML Engineer | MLflow, modelos preditivos, series temporais |
+| `databricks-analyst` | Engenheiro de Dados sênior | Exploração de dados, SQL, notebooks PySpark |
+| `data-scientist` | Cientista de Dados / ML Engineer | MLflow, modelos preditivos, séries temporais |
 
 [Ver detalhes dos agentes →](docs/agents.md)
 
@@ -34,14 +34,14 @@ Acionados automaticamente pelo Claude Code conforme o tipo de tarefa.
 | Comando | O que faz |
 |---|---|
 | `/sql` | Executar SQL ou gerar a partir de linguagem natural |
-| `/analyze` | Analise exploratoria completa (EDA) |
+| `/analyze` | Análise exploratória completa (EDA) |
 | `/notebook` | Criar notebook PySpark no formato Databricks |
 | `/explore` | Navegar pelo Unity Catalog progressivamente |
 | `/predict` | Pipeline ML completo (EDA → treino → MLflow) |
 | `/stats` | Testes estatísticos avançados via SQL |
-| `/timeseries` | Analise de series temporais + forecasting |
+| `/timeseries` | Análise de séries temporais + forecasting |
 | `/model` | Inspecionar experimentos, runs e endpoints MLflow |
-| `/feature` | Analise de features e pipeline de engineering |
+| `/feature` | Análise de features e pipeline de engineering |
 
 [Ver exemplos e detalhes →](docs/skills.md)
 
@@ -55,14 +55,14 @@ Acionados automaticamente pelo Claude Code conforme o tipo de tarefa.
 
 ## Instalação
 
-### Pre-requisitos
+### Pré-requisitos
 
-- Python 3.10+ com modulo `venv` (no Ubuntu/Debian: `sudo apt install python3.X-venv`)
+- Python 3.10+ com módulo `venv` (no Ubuntu/Debian: `sudo apt install python3.X-venv`)
 - Git
 - [Claude Code](https://docs.anthropic.com/en/docs/claude-code) instalado
 - Token de acesso pessoal (PAT) do Databricks
 
-### Instalação rapida (recomendada)
+### Instalação rápida (recomendada)
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/rasterxdev/databricks-mcp-toolkit/main/setup.sh | bash
@@ -83,7 +83,7 @@ git clone git@github.com:rasterxdev/databricks-mcp-toolkit.git && cd databricks-
 
 ## Atualização
 
-O toolkit verifica automaticamente se ha atualizações ao abrir o Claude Code. Se encontrar uma versão nova, você vera um aviso na primeira resposta de qualquer ferramenta MCP. Para atualizar, digite `/databricks-update` no chat ou rode manualmente:
+O toolkit verifica automaticamente se há atualizações ao abrir o Claude Code. Se encontrar uma versão nova, você verá um aviso na primeira resposta de qualquer ferramenta MCP. Para atualizar, digite `/databricks-update` no chat ou rode manualmente:
 
 ```bash
 ~/.local/share/databricks-mcp/update.sh
@@ -93,7 +93,7 @@ O toolkit verifica automaticamente se ha atualizações ao abrir o Claude Code. 
 
 ## Uso
 
-Apos a instalação, basta abrir qualquer terminal e rodar:
+Após a instalação, basta abrir qualquer terminal e rodar:
 
 ```bash
 claude
@@ -133,7 +133,7 @@ flowchart TD
 
 ## Documentação
 
-| Topico | Link |
+| Tópico | Link |
 |---|---|
 | Agentes | [docs/agents.md](docs/agents.md) |
 | Skills (slash commands) | [docs/skills.md](docs/skills.md) |

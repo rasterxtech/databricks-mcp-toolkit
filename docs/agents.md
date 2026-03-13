@@ -9,26 +9,26 @@ O toolkit inclui dois agentes especializados, acionados automaticamente pelo Cla
 | Atributo | Detalhe |
 |---|---|
 | **Modelo** | Sonnet |
-| **Perfil** | Engenheiro de Dados e Analista senior |
+| **Perfil** | Engenheiro de Dados e Analista sênior |
 | **Ferramentas** | 9 ferramentas MCP de dados + Read, Write, Edit, Bash, Glob, Grep |
 
 ### Capacidades
 
-1. **Exploração de dados**: navegar em catalogos, schemas e tabelas do Unity Catalog
+1. **Exploração de dados**: navegar em catálogos, schemas e tabelas do Unity Catalog
 2. **SQL Analytics**: escrever e executar queries SQL otimizadas
-3. **Analise estatística**: gerar estatísticas descritivas, distribuições, correlações
+3. **Análise estatística**: gerar estatísticas descritivas, distribuições, correlações
 4. **Data Quality**: identificar nulos, duplicatas, outliers e inconsistências
-5. **PySpark**: escrever e revisar codigo PySpark para transformações
-6. **Notebooks**: criar notebooks Databricks com analises completas
+5. **PySpark**: escrever e revisar código PySpark para transformações
+6. **Notebooks**: criar notebooks Databricks com análises completas
 
-### Quando e acionado
+### Quando é acionado
 
 O agente entra em ação quando você pede coisas como:
 - "analisa a tabela X pra mim"
 - "cria um notebook que calcula Y"
 - "roda esse SQL e me explica o resultado"
 
-### Fluxo de analise
+### Fluxo de análise
 
 O agente segue uma metodologia consistente:
 
@@ -41,23 +41,23 @@ O agente segue uma metodologia consistente:
 | Atributo | Detalhe |
 |---|---|
 | **Modelo** | Sonnet |
-| **Perfil** | Cientista de Dados senior / ML Engineer |
+| **Perfil** | Cientista de Dados sênior / ML Engineer |
 | **Ferramentas** | Todas as 18 ferramentas MCP (dados + MLflow) + Read, Write, Edit, Bash, Glob, Grep |
 
 ### Capacidades
 
 1. **ML Lifecycle**: explorar experimentos, runs, modelos e serving endpoints via MLflow
-2. **Analise estatística avançada**: correlação, distribuições, testes de hipotese via SQL
+2. **Análise estatística avançada**: correlação, distribuições, testes de hipótese via SQL
 3. **Feature engineering**: encoding, scaling, window features, lag features
 4. **Pipelines preditivos**: classificação, regressão, AutoML com logging no MLflow
-5. **Series temporais**: tendência, sazonalidade, forecasting
-6. **Avaliação de modelos**: metricas, comparação de runs, analise de convergência
+5. **Séries temporais**: tendência, sazonalidade, forecasting
+6. **Avaliação de modelos**: métricas, comparação de runs, análise de convergência
 7. **Analytics avançado**: clustering, anomalias, segmentação, cohort analysis
 
-### Quando e acionado
+### Quando é acionado
 
 O agente entra em ação quando você pede coisas como:
-- "compara os ultimos runs do experimento X"
+- "compara os últimos runs do experimento X"
 - "cria um modelo preditivo para churn"
-- "analisa a serie temporal de vendas"
+- "analisa a série temporal de vendas"
 - "faz feature engineering na tabela Y"
