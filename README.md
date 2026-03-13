@@ -261,26 +261,30 @@ A instalação é feita uma única vez por máquina.
 - Acesso ao workspace Databricks
 - Token de acesso pessoal (PAT) do Databricks
 
-### Passos
+### Instalação rápida (recomendada)
+
+Um comando. Sem clonar repo.
 
 ```bash
-# 1. Clone este repositório
-git clone git@github.com:rasterxdev/databricks-mcp-toolkit.git && cd databricks
+curl -fsSL https://raw.githubusercontent.com/rasterxdev/databricks-mcp-toolkit/main/setup.sh | bash
+```
 
-# 2. Rode o instalador
+O instalador baixa tudo do GitHub, cria o ambiente virtual, pede suas credenciais Databricks e configura o Claude Code globalmente.
+
+### Instalação a partir do clone
+
+Alternativa para quem quer customizar ou contribuir:
+
+```bash
+git clone git@github.com:rasterxdev/databricks-mcp-toolkit.git && cd databricks-mcp-toolkit
 ./install.sh
 ```
 
-O instalador é interativo e guia você em 3 etapas:
+### O que o instalador faz
 
 1. **Dependências** — cria o ambiente virtual com `databricks-connect`, `databricks-sdk`, `mcp[cli]` e `python-dotenv`
 2. **Credenciais** — pede `DATABRICKS_HOST`, `DATABRICKS_TOKEN` e opcionalmente `DATABRICKS_WAREHOUSE_ID`, salvando em `~/.local/share/databricks-mcp/.databricks_mcp_cfg` com permissões restritas (`chmod 600`)
-3. **Modo de instalação** — você escolhe entre:
-
-| Modo | O que faz | Quando usar |
-|---|---|---|
-| **Global** (recomendado) | Instala agentes, skills e `.mcp.json` no `~/.claude/`. Funciona em qualquer terminal. | Maioria dos casos |
-| **Por projeto** | Cria o comando `databricks-mcp-init` para configurar cada projeto individualmente. | Quando precisa de configurações diferentes por projeto |
+3. **Instalação global** — instala agentes, skills e `.mcp.json` no `~/.claude/`, funcionando em qualquer terminal com Claude Code
 
 ---
 
@@ -463,9 +467,12 @@ A skill fica disponível imediatamente como `/nome-do-arquivo`. Rode `./install.
 
 ### Para novos membros do time
 
-1. Clone este repo e rode `./install.sh`
+1. Rode no terminal:
+   ```bash
+   curl -fsSL https://raw.githubusercontent.com/rasterxdev/databricks-mcp-toolkit/main/setup.sh | bash
+   ```
 2. O instalador pedirá o token Databricks (ver abaixo como gerar)
-3. Escolha o modo Global (recomendado) e pronto — qualquer terminal com Claude Code já funciona
+3. Pronto — qualquer terminal com Claude Code já funciona
 
 ### Gerando seu token Databricks
 
