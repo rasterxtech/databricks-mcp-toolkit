@@ -9,8 +9,10 @@ Uso:
 """
 
 import os
+import threading
+import urllib.request
 from datetime import datetime, timezone
-from functools import lru_cache
+from functools import lru_cache, wraps
 from textwrap import dedent
 
 from dotenv import load_dotenv
@@ -23,9 +25,8 @@ from mcp.server.fastmcp import FastMCP
 #   3. .databricks_mcp_cfg global (~/.local/share/databricks-mcp/)
 #   4. Perfil CLI (~/.databrickscfg)
 load_dotenv()  # carrega .env do projeto (não sobrescreve env vars existentes)
-_cfg_path = os.path.join(
-    os.path.expanduser("~"), ".local", "share", "databricks-mcp", ".databricks_mcp_cfg"
-)
+_MCP_HOME = os.path.join(os.path.expanduser("~"), ".local", "share", "databricks-mcp")
+_cfg_path = os.path.join(_MCP_HOME, ".databricks_mcp_cfg")
 if os.path.isfile(_cfg_path):
     load_dotenv(_cfg_path, override=False)  # preenche lacunas sem sobrescrever
 
@@ -39,6 +40,69 @@ mcp = FastMCP(
         e gerenciar recursos do workspace.
     """).strip(),
 )
+
+
+# ── Auto-update check ────────────────────────────────────────────────────────
+
+_update_info: dict = {}
+_update_notice_shown = False
+
+
+def _check_for_updates():
+    """Verifica se há atualização disponível (background, silencioso)."""
+    try:
+        version_file = os.path.join(_MCP_HOME, ".version")
+        if not os.path.isfile(version_file):
+            return
+        with open(version_file) as f:
+            local_ver = f.read().strip()
+        url = "https://raw.githubusercontent.com/rasterxdev/databricks-mcp-toolkit/main/VERSION"
+        with urllib.request.urlopen(url, timeout=5) as resp:
+            remote_ver = resp.read().decode().strip()
+        if remote_ver != local_ver:
+            _update_info["local"] = local_ver
+            _update_info["remote"] = remote_ver
+    except Exception:
+        pass
+
+
+threading.Thread(target=_check_for_updates, daemon=True).start()
+
+
+def _prepend_update_notice(result: str) -> str:
+    """Adiciona aviso de atualização à primeira resposta da sessão."""
+    global _update_notice_shown
+    if _update_notice_shown or not _update_info:
+        return result
+    _update_notice_shown = True
+    return (
+        f"> **Atualização disponível:** Databricks MCP Toolkit "
+        f"v{_update_info['local']} → v{_update_info['remote']}. "
+        f"Rode `/databricks-update` para atualizar.\n\n---\n\n"
+        + result
+    )
+
+
+# Wrap mcp.tool para injetar aviso de update na primeira resposta
+_original_tool = mcp.tool
+
+
+def _tool_with_update_notice(**kwargs):
+    original_decorator = _original_tool(**kwargs)
+
+    def decorator(func):
+        @wraps(func)
+        def wrapper(*args, **kw):
+            return _prepend_update_notice(func(*args, **kw))
+        return original_decorator(wrapper)
+
+    return decorator
+
+
+mcp.tool = _tool_with_update_notice
+
+
+# ── Helpers ──────────────────────────────────────────────────────────────────
 
 
 @lru_cache(maxsize=1)
