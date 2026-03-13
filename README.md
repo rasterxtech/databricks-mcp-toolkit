@@ -532,11 +532,13 @@ O script automatiza todo o processo:
 3. Cria um branch `release/vX.Y.Z` com o commit e tag anotada
 4. Abre um Pull Request no GitHub para revisão
 
-Após o merge do PR, faça push da tag:
+Após o merge do PR, publique a release:
 
 ```bash
-git push origin vX.Y.Z
+./post-release.sh vX.Y.Z
 ```
+
+Isso faz push da tag, cria a GitHub Release com as notas do changelog e limpa o branch de release.
 
 O changelog completo está em [CHANGELOG.md](CHANGELOG.md).
 
