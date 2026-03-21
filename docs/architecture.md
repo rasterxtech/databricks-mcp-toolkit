@@ -1,22 +1,27 @@
 # Arquitetura
 
-O toolkit é composto por 3 camadas que trabalham juntas:
+O toolkit é composto por 3 camadas:
 
-<p align="center">
-  <img src="architecture.svg" alt="Arquitetura do Databricks MCP Toolkit" width="100%">
-</p>
+```
+Computador do Usuário                MCP Server (cloud)           Databricks
+┌──────────────────┐              ┌──────────────────┐       ┌──────────────┐
+│ Claude Code (IA) │── HTTPS ──>  │ FastMCP (18 tools)│──>    │ Workspace    │
+│ + agents/skills  │  headers     │ stateless, sem IA │ SDK   │ SQL, MLflow  │
+└──────────────────┘              └──────────────────┘       └──────────────┘
+```
+
+- **IA** fica no computador do usuário (Claude Code)
+- **MCP Server** roda na cloud (Render/Fly.io), stateless, sem IA
+- **Credenciais** enviadas por request via HTTP headers (cada usuário usa seu PAT)
+- **API Key** protege o server contra acesso não autorizado
 
 ---
 
-## Estrutura de pastas
-
-### MCP Server (instalação base, sempre criada)
+## Estrutura no computador do usuário
 
 ```
 ~/.local/share/databricks-mcp/
-├── server.py                     ← MCP Server (18 ferramentas)
-├── .venv/                        ← Python + dependências
-├── .databricks_mcp_cfg           ← Credenciais (chmod 600)
+├── .databricks_mcp_cfg           ← Config local (URL, API Key, credenciais)
 ├── .version                      ← Versão instalada
 ├── update.sh                     ← Auto-updater
 ├── commands/                     ← Templates das skills
@@ -26,50 +31,39 @@ O toolkit é composto por 3 camadas que trabalham juntas:
 └── agents/
     ├── databricks-analyst.md
     └── data-scientist.md
-```
 
-### Modo Global (skills, agentes e MCP no `~/.claude/`)
-
-```
 ~/.claude/
-├── .mcp.json                     ← Config MCP (aponta para server global)
 ├── CLAUDE.md                     ← Instruções globais para o Claude Code
 ├── commands/                     ← Skills disponíveis em qualquer projeto
-│   ├── sql.md, analyze.md, notebook.md, explore.md
-│   ├── predict.md, stats.md, timeseries.md
-│   ├── model.md, feature.md
+│   ├── sql.md, analyze.md, ...
 └── agents/
     ├── databricks-analyst.md
     └── data-scientist.md
+
+~/.claude.json                    ← Config MCP (gerado por `claude mcp add`)
 ```
 
-### Modo Por Projeto (gerado pelo `databricks-mcp-init`)
+> A configuração MCP é registrada via `claude mcp add -t http -s user` e fica em `~/.claude.json`.
+> Nenhuma instalação de Python necessária no computador do usuário.
 
-```
-~/qualquer-projeto/
-├── .mcp.json                     ← Aponta para o server global (gitignored)
-└── .claude/
-    ├── commands/                  ← Skills copiadas
-    │   ├── sql.md, analyze.md, notebook.md, explore.md
-    │   ├── predict.md, stats.md, timeseries.md
-    │   ├── model.md, feature.md
-    └── agents/
-        ├── databricks-analyst.md
-        └── data-scientist.md
-```
+---
 
-### Repositório (source of truth)
+## Repositório (source of truth)
 
 ```
 databricks-mcp-toolkit/
+├── databricks_mcp/
+│   └── server.py                 ← MCP Server HTTP (deployado na cloud)
+├── Dockerfile                    ← Build do container
+├── requirements.txt              ← Dependências do server
+├── render.yaml                   ← Config Render
+├── fly.toml                      ← Config Fly.io
 ├── setup.sh                      ← Instalador remoto (curl | bash)
 ├── update.sh                     ← Auto-updater (baixado pelos instaladores)
 ├── VERSION                       ← Versão atual
 ├── CHANGELOG.md                  ← Histórico de releases
 ├── CLAUDE.md                     ← Instruções para agentes (este repo)
 ├── README.md                     ← Documentação principal
-├── databricks_mcp/
-│   └── server.py                 ← MCP Server (18 ferramentas)
 ├── .claude/
 │   ├── commands/*.md             ← 10 skills
 │   └── agents/*.md               ← 2 agentes

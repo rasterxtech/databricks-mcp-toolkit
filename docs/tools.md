@@ -1,6 +1,6 @@
 # Ferramentas MCP
 
-O MCP Server roda localmente e expõe 18 ferramentas que o Claude Code chama diretamente via o protocolo [MCP (Model Context Protocol)](https://modelcontextprotocol.io/) por `stdio`. O servidor é iniciado automaticamente ao abrir o projeto, conforme configurado no `.mcp.json`.
+O MCP Server roda remotamente e expõe 18 ferramentas que o Claude Code chama diretamente via o protocolo [MCP (Model Context Protocol)](https://modelcontextprotocol.io/) por HTTP. O servidor é stateless — recebe credenciais Databricks via headers em cada request.
 
 ---
 
@@ -34,4 +34,4 @@ O MCP Server roda localmente e expõe 18 ferramentas que o Claude Code chama dir
 
 ## Como funciona a conexão
 
-O servidor carrega credenciais seguindo a prioridade: `.env` do projeto > `.databricks_mcp_cfg` global > perfil CLI. Seleciona automaticamente um SQL Warehouse em estado `RUNNING`. O client e o warehouse são cacheados para evitar reconexões desnecessárias. As ferramentas de MLflow e Model Registry usam o mesmo `WorkspaceClient` — sem dependências adicionais.
+O Claude Code envia credenciais Databricks como HTTP headers (`X-Databricks-Host`, `X-Databricks-Token`) em cada chamada de ferramenta. O server cria um `WorkspaceClient` com essas credenciais e seleciona automaticamente um SQL Warehouse em estado `RUNNING`. Clients e warehouses são cacheados por usuário para evitar reconexões desnecessárias. Uma `X-API-Key` protege o server contra acesso não autorizado.

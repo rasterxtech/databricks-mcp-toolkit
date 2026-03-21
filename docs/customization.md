@@ -1,37 +1,54 @@
-# Customização
+# Customizacao
 
 ## Credenciais
 
-As credenciais são configuradas durante a instalação e salvas em `~/.local/share/databricks-mcp/.databricks_mcp_cfg`. Para override por projeto, crie um `.env` na raiz do projeto.
+As credenciais sao configuradas durante a instalacao. O instalador salva uma copia local em `~/.local/share/databricks-mcp/.databricks_mcp_cfg` e registra o MCP server via `claude mcp add` com as credenciais nos headers HTTP.
 
-| Variável | Obrigatória | Descrição |
+| Configuracao | Obrigatoria | Descricao |
 |---|---|---|
-| `DATABRICKS_HOST` | Sim | URL do workspace (ex: `https://dbc-xxx.cloud.databricks.com/`) |
+| `MCP_SERVER_URL` | Sim | URL do servidor MCP (ex: `https://databricks-mcp.onrender.com`) |
+| `MCP_API_KEY` | Sim | Chave de acesso do servidor (fornecida pelo admin) |
+| `DATABRICKS_HOST` | Sim | URL do workspace (ex: `https://dbc-xxx.cloud.databricks.com`) |
 | `DATABRICKS_TOKEN` | Sim | Token de acesso pessoal (PAT) |
-| `DATABRICKS_WAREHOUSE_ID` | Não | ID do SQL Warehouse. Se omitido, usa o primeiro em estado `RUNNING` |
+| `DATABRICKS_WAREHOUSE_ID` | Nao | ID do SQL Warehouse. Se omitido, usa o primeiro em estado `RUNNING` |
 
-Para reconfigurar credenciais, rode `./scripts/install.sh` novamente — o instalador detecta credenciais existentes e oferece a opção de mantê-las ou substituí-las.
+Para reconfigurar, rode o instalador novamente:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/rasterxdev/databricks-mcp-toolkit/main/setup.sh | bash
+```
+
+Ou reconfigure manualmente o MCP:
+
+```bash
+claude mcp remove databricks -s user
+claude mcp add -t http -s user \
+  -H "X-API-Key: SUA_KEY" \
+  -H "X-Databricks-Host: https://seu-workspace.cloud.databricks.com" \
+  -H "X-Databricks-Token: SEU_TOKEN" \
+  databricks https://seu-server.onrender.com/mcp
+```
 
 ---
 
 ## Adicionar novas ferramentas ao MCP Server
 
-Edite `databricks_mcp/server.py` e adicione uma nova função decorada com `@mcp.tool()`:
+Edite `databricks_mcp/server.py` e adicione uma nova funcao decorada com `@mcp.tool()`:
 
 ```python
 @mcp.tool()
 def minha_ferramenta(parametro: str) -> str:
-    """Descrição da ferramenta.
+    """Descricao da ferramenta.
 
     Args:
-        parametro: Descrição do parâmetro.
+        parametro: Descricao do parametro.
     """
     client = _get_client()
-    # sua lógica aqui
+    # sua logica aqui
     return "resultado"
 ```
 
-Após editar, rode `./scripts/install.sh` novamente para atualizar a instalação global.
+Apos editar, faca deploy do server (o Render redeploya automaticamente ao push na main).
 
 ---
 
@@ -41,13 +58,13 @@ Crie um arquivo `.md` em `.claude/commands/`:
 
 ```markdown
 ---
-description: Descrição curta da skill
+description: Descricao curta da skill
 allowed-tools: mcp__databricks__run_sql, mcp__databricks__describe_table
 ---
 
-Instruções para o Claude sobre o que fazer.
+Instrucoes para o Claude sobre o que fazer.
 
 $ARGUMENTS
 ```
 
-A skill fica disponível imediatamente como `/nome-do-arquivo`. Rode `./scripts/install.sh` para atualizar os templates globais.
+A skill fica disponivel imediatamente como `/nome-do-arquivo`. Rode o instalador ou copie manualmente para `~/.claude/commands/`.

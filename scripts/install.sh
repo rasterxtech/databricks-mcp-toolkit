@@ -297,91 +297,35 @@ else
 fi
 echo -e "  ${GREEN}✓${RESET} CLAUDE.md instalado"
 
-# ── 6. Gerar .mcp.json ──────────────────────────────────────
+# ── 6. Registrar MCP server via Claude CLI ───────────────────
 
-MCP_JSON="$CLAUDE_GLOBAL/.mcp.json"
 MCP_URL="${SERVER_URL}/mcp"
 
-HEADERS_JSON="{\"X-API-Key\": \"${API_KEY}\", \"X-Databricks-Host\": \"${DB_HOST}\", \"X-Databricks-Token\": \"${DB_TOKEN}\""
-if [ -n "$DB_WAREHOUSE" ]; then
-    HEADERS_JSON="${HEADERS_JSON}, \"X-Databricks-Warehouse-Id\": \"${DB_WAREHOUSE}\""
-fi
-HEADERS_JSON="${HEADERS_JSON}}"
+if command -v claude &>/dev/null; then
+    claude mcp remove databricks -s user 2>/dev/null || true
 
-TMP_JSON=$(mktemp)
+    HEADER_ARGS="-H \"X-API-Key: ${API_KEY}\" -H \"X-Databricks-Host: ${DB_HOST}\" -H \"X-Databricks-Token: ${DB_TOKEN}\""
+    if [ -n "$DB_WAREHOUSE" ]; then
+        HEADER_ARGS="${HEADER_ARGS} -H \"X-Databricks-Warehouse-Id: ${DB_WAREHOUSE}\""
+    fi
 
-if [ -f "$MCP_JSON" ] && command -v python3 &>/dev/null; then
-    python3 -c "
-import json, sys
-
-path = '$MCP_JSON'
-try:
-    with open(path) as f:
-        data = json.load(f)
-except (json.JSONDecodeError, FileNotFoundError):
-    data = {}
-
-if 'mcpServers' not in data:
-    data['mcpServers'] = {}
-
-data['mcpServers']['databricks'] = {
-    'url': '${MCP_URL}',
-    'headers': json.loads('''${HEADERS_JSON}''')
-}
-
-with open('$TMP_JSON', 'w') as f:
-    json.dump(data, f, indent=2)
-    f.write('\n')
-" 2>/dev/null || {
-        cat > "$TMP_JSON" << MCPEOF
-{
-  "mcpServers": {
-    "databricks": {
-      "url": "${MCP_URL}",
-      "headers": ${HEADERS_JSON}
-    }
-  }
-}
-MCPEOF
-    }
+    eval claude mcp add -t http -s user ${HEADER_ARGS} databricks "${MCP_URL}"
+    echo -e "  ${GREEN}✓${RESET} MCP server registrado via Claude CLI"
 else
-    cat > "$TMP_JSON" << MCPEOF
-{
-  "mcpServers": {
-    "databricks": {
-      "url": "${MCP_URL}",
-      "headers": ${HEADERS_JSON}
-    }
-  }
-}
-MCPEOF
-fi
-
-mv "$TMP_JSON" "$MCP_JSON"
-chmod 600 "$MCP_JSON"
-echo -e "  ${GREEN}✓${RESET} .mcp.json configurado (URL: $MCP_URL)"
-
-# Salvar modo
-echo "mode=global" > "$MCP_HOME/.install_mode"
-
-# Gitignore global
-GLOBAL_GITIGNORE="$HOME/.gitignore_global"
-if [ ! -f "$GLOBAL_GITIGNORE" ] || ! grep -q "^\.mcp\.json$" "$GLOBAL_GITIGNORE" 2>/dev/null; then
-    echo ".mcp.json" >> "$GLOBAL_GITIGNORE"
-    git config --global core.excludesfile "$GLOBAL_GITIGNORE" 2>/dev/null || true
+    echo -e "  ${YELLOW}!${RESET} Claude Code não encontrado. Após instalar, rode:"
+    echo -e "    ${CYAN}claude mcp add -t http -s user -H \"X-API-Key: ...\" -H \"X-Databricks-Host: ...\" -H \"X-Databricks-Token: ...\" databricks ${MCP_URL}${RESET}"
 fi
 
 echo ""
 echo -e "${BOLD}══════════════════════════════════════════════════════════${RESET}"
 echo -e "${GREEN}${BOLD}  Instalação completa!${RESET}"
 echo ""
-echo "  Abra qualquer terminal e rode:"
-echo -e "    ${CYAN}claude${RESET}"
+echo "  Reinicie o Claude Code para ativar:"
+echo -e "    ${CYAN}exit${RESET}  e depois  ${CYAN}claude${RESET}"
 echo ""
 echo "  O Databricks MCP já está disponível em qualquer projeto."
 echo ""
 echo -e "  ${DIM}Servidor: $SERVER_URL${RESET}"
 echo -e "  ${DIM}Config:   $CFG_FILE${RESET}"
-echo -e "  ${DIM}MCP:      $MCP_JSON${RESET}"
 echo -e "${BOLD}══════════════════════════════════════════════════════════${RESET}"
 echo ""
