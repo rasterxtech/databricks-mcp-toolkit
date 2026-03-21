@@ -3,12 +3,12 @@
 ## Ambiente
 
 - Workspace: https://<seu-workspace>.cloud.databricks.com/
-- MCP Server: roda remotamente (HTTP), configurado via `~/.claude/.mcp.json`
-- Credenciais: cada usuário configura seu PAT localmente no `.mcp.json` (headers HTTP)
+- MCP Server: roda remotamente (HTTP), registrado via `claude mcp add -t http -s user`
+- Credenciais: cada usuário configura seu PAT localmente (enviado como header HTTP em cada request)
   - Config local: `~/.local/share/databricks-mcp/.databricks_mcp_cfg` (criado pelo instalador)
-  - Credenciais são enviadas como headers HTTP em cada request MCP
+  - Config MCP: `~/.claude.json` (gerado pelo `claude mcp add`)
 - Código-fonte do MCP Server: `databricks_mcp/server.py` (este repo é a source of truth)
-- Deploy: Dockerfile na raiz, compatível com Fly.io, Railway, Render
+- Deploy: Dockerfile na raiz, compatível com Render, Fly.io, Railway
 
 ## Ferramentas MCP disponíveis
 

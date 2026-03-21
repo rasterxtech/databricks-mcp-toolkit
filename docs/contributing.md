@@ -2,12 +2,13 @@
 
 ## Para novos membros do time
 
-1. Rode no terminal:
+1. Obtenha com o admin do time: **URL do servidor MCP** e **API Key**
+2. Rode no terminal:
    ```bash
    curl -fsSL https://raw.githubusercontent.com/rasterxdev/databricks-mcp-toolkit/main/setup.sh | bash
    ```
-2. O instalador pedirá o token Databricks (ver abaixo como gerar)
-3. Pronto — qualquer terminal com Claude Code já funciona
+3. O instalador pedirá: URL do servidor, API Key, e token Databricks (ver abaixo como gerar)
+4. Reinicie o Claude Code e pronto
 
 ---
 
@@ -23,12 +24,13 @@
 
 ## O que vai no git vs o que fica local
 
-| Vai no git (este repo) | Fica local (por máquina) |
+| Vai no git (este repo) | Fica local (por maquina) |
 |---|---|
-| `databricks_mcp/server.py` | `~/.local/share/databricks-mcp/` (instalação + credenciais) |
-| `.claude/commands/*.md` | `~/.claude/` (modo global: agentes, skills, MCP config) |
-| `.claude/agents/*.md` | `.env` (override de credenciais por projeto) |
-| `scripts/install.sh` | `.claude/settings.local.json` (permissões locais) |
+| `databricks_mcp/server.py` | `~/.local/share/databricks-mcp/.databricks_mcp_cfg` (credenciais) |
+| `Dockerfile`, `requirements.txt` | `~/.claude/commands/`, `~/.claude/agents/` (skills e agentes) |
+| `.claude/commands/*.md` | `~/.claude.json` (config MCP, gerado por `claude mcp add`) |
+| `.claude/agents/*.md` | |
+| `scripts/install.sh` | |
 | `CLAUDE.md`, `README.md` | |
 
 ---
