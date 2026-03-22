@@ -223,7 +223,7 @@ done
 echo -e "  ${GREEN}✓${RESET} Skills ($(echo "$SKILLS" | wc -w | tr -d ' '))"
 
 # Agents
-AGENTS="databricks-analyst data-scientist"
+AGENTS="databricks-analyst databricks-scientist"
 for agent in $AGENTS; do
     curl -fsSL "$REPO_RAW/.claude/agents/${agent}.md" -o "$MCP_HOME/agents/${agent}.md"
 done
@@ -301,7 +301,7 @@ Ao interagir com o Databricks, **sempre** use as ferramentas MCP (prefixo `mcp__
 O agent `databricks-analyst` é acionado automaticamente para tarefas de análise de dados,
 exploração de tabelas, escrita de SQL e criação de notebooks PySpark.
 
-O agent `data-scientist` é acionado para tarefas de ciência de dados: ML lifecycle (MLflow),
+O agent `databricks-scientist` é acionado para tarefas de ciência de dados: ML lifecycle (MLflow),
 análise estatística avançada, feature engineering, séries temporais e modelos preditivos.
 
 ## Convenções

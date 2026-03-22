@@ -30,7 +30,7 @@ Computador do Usuário                MCP Server (cloud)           Databricks
 │   ├── model.md, feature.md
 └── agents/
     ├── databricks-analyst.md
-    └── data-scientist.md
+    └── databricks-scientist.md
 
 ~/.claude/
 ├── CLAUDE.md                     ← Instruções globais para o Claude Code
@@ -38,7 +38,7 @@ Computador do Usuário                MCP Server (cloud)           Databricks
 │   ├── sql.md, analyze.md, ...
 └── agents/
     ├── databricks-analyst.md
-    └── data-scientist.md
+    └── databricks-scientist.md
 
 ~/.claude.json                    ← Config MCP (gerado por `claude mcp add`)
 ```

@@ -36,7 +36,7 @@ O agente segue uma metodologia consistente:
 
 ---
 
-## `data-scientist`
+## `databricks-scientist`
 
 | Atributo | Detalhe |
 |---|---|

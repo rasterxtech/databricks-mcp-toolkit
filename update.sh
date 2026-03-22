@@ -64,7 +64,7 @@ for skill in $SKILLS; do
 done
 echo -e "  ${GREEN}✓${RESET} Skills atualizadas"
 
-AGENTS="databricks-analyst data-scientist"
+AGENTS="databricks-analyst databricks-scientist"
 for agent in $AGENTS; do
     curl -fsSL "$REPO_RAW/.claude/agents/${agent}.md" -o "$MCP_HOME/agents/${agent}.md" 2>/dev/null || true
 done
