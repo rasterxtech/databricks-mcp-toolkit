@@ -246,19 +246,18 @@ if command -v claude &>/dev/null; then
     claude mcp remove databricks -s user 2>/dev/null || true
 
     # Registrar via Claude CLI (gera o formato correto em ~/.claude.json)
+    # Nota: -H (headers) devem vir DEPOIS do name e URL
     if [ -n "$DB_WAREHOUSE" ]; then
-        claude mcp add -t http -s user \
+        claude mcp add -t http -s user databricks "${MCP_URL}" \
             -H "X-API-Key: ${API_KEY}" \
             -H "X-Databricks-Host: ${DB_HOST}" \
             -H "X-Databricks-Token: ${DB_TOKEN}" \
-            -H "X-Databricks-Warehouse-Id: ${DB_WAREHOUSE}" \
-            databricks "${MCP_URL}"
+            -H "X-Databricks-Warehouse-Id: ${DB_WAREHOUSE}"
     else
-        claude mcp add -t http -s user \
+        claude mcp add -t http -s user databricks "${MCP_URL}" \
             -H "X-API-Key: ${API_KEY}" \
             -H "X-Databricks-Host: ${DB_HOST}" \
-            -H "X-Databricks-Token: ${DB_TOKEN}" \
-            databricks "${MCP_URL}"
+            -H "X-Databricks-Token: ${DB_TOKEN}"
     fi
     echo -e "  ${GREEN}✓${RESET} MCP server registrado via Claude CLI"
 else
