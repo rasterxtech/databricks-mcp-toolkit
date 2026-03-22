@@ -245,14 +245,21 @@ if command -v claude &>/dev/null; then
     # Remover config anterior se existir
     claude mcp remove databricks -s user 2>/dev/null || true
 
-    # Montar headers
-    HEADER_ARGS="-H \"X-API-Key: ${API_KEY}\" -H \"X-Databricks-Host: ${DB_HOST}\" -H \"X-Databricks-Token: ${DB_TOKEN}\""
-    if [ -n "$DB_WAREHOUSE" ]; then
-        HEADER_ARGS="${HEADER_ARGS} -H \"X-Databricks-Warehouse-Id: ${DB_WAREHOUSE}\""
-    fi
-
     # Registrar via Claude CLI (gera o formato correto em ~/.claude.json)
-    eval claude mcp add -t http -s user ${HEADER_ARGS} databricks "${MCP_URL}"
+    if [ -n "$DB_WAREHOUSE" ]; then
+        claude mcp add -t http -s user \
+            -H "X-API-Key: ${API_KEY}" \
+            -H "X-Databricks-Host: ${DB_HOST}" \
+            -H "X-Databricks-Token: ${DB_TOKEN}" \
+            -H "X-Databricks-Warehouse-Id: ${DB_WAREHOUSE}" \
+            databricks "${MCP_URL}"
+    else
+        claude mcp add -t http -s user \
+            -H "X-API-Key: ${API_KEY}" \
+            -H "X-Databricks-Host: ${DB_HOST}" \
+            -H "X-Databricks-Token: ${DB_TOKEN}" \
+            databricks "${MCP_URL}"
+    fi
     echo -e "  ${GREEN}✓${RESET} MCP server registrado via Claude CLI"
 else
     echo -e "  ${YELLOW}!${RESET} Claude Code não encontrado. Após instalar, rode:"
